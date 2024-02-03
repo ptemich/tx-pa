@@ -1,5 +1,15 @@
 # yarn add typescript @types/node @types/react @types/react-dom @types/jest
 
+
+
+https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/basic_type_example/
+https://www.typescripttutorial.net/typescript-tutorial/typescript-union-type/
+https://www.youtube.com/watch?v=FJDVKeh7RJI&t=6s&ab_channel=freeCodeCamp.org
+
+https://dmitripavlutin.com/react-useeffect-explanation/
+https://fettblog.eu/typescript-react/hooks/#useeffect
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
