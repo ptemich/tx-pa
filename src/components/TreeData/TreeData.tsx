@@ -1,26 +1,39 @@
-import React, { MouseEvent, MouseEventHandler } from "react";
+import React, { useEffect, useState } from "react";
 import TreeNodeDto from "../../model/TreeNodeDto";
 
 interface TreeDataProperties {
-    nodes: TreeNodeDto[]
+    level: number,
+    nodeId?: string,
+    nodeLabel?: string,
+    loadDataOnNode: (nodeId?: string) => Promise<TreeNodeDto[]>
 }
 
-// interface TreeNodeData {
-//     id: string,
-//     label: string
-// }
+function TreeData({level, nodeId, nodeLabel, loadDataOnNode} : TreeDataProperties) {
 
-const handleOnNodeClick = (event: React.MouseEvent<HTMLElement>) => {
-    //const value = event.target.value;
-    //valueSelectedCallback(value);
-    console.log("clicked " + event);
-};
+    const [treeNodes, setTreeNodes] = useState<TreeNodeDto[]>();
+    const [isOpen, setIsOpen] = useState(false);
 
-function TreeData({nodes} : TreeDataProperties) {
+    const handleOnNodeClick = (event: React.MouseEvent<HTMLElement>) => {
+        console.log("Clicked");
+        setIsOpen(!isOpen); // toggle state
+    };
+
+    useEffect(() => {
+        if (isOpen) {
+            loadDataOnNode(nodeId)
+            .then(loadedNodes => setTreeNodes(loadedNodes));
+        }
+    }, [isOpen]);
+
     return(
-        <ul>
-            {nodes.map(node => <li key={node.id} onClick={handleOnNodeClick}>{node.label}</li>)}
-        </ul>
+        <>
+            {nodeLabel && <li onClick={handleOnNodeClick}>{isOpen ? "-" : "+"}{level}.{nodeLabel}</li>}
+            {isOpen && <li>
+                    <ul className="ml-4">
+                        {treeNodes?.map(node => <li><TreeData level={level + 1} nodeId={node.id} nodeLabel={node.label} loadDataOnNode={loadDataOnNode}/></li>)}
+                    </ul>
+                </li>}
+        </>
     );
 }
 
